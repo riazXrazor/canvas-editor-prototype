@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    h1,h2,h3,h4,h5,h6{
+      margin: 0;
+      padding: 0;
+    }
+    .canvas-container{
+      margin: 0 auto;
+      border: 1px dashed #aca4a4;
+    }
+    .row{
+      display: flex;
+    }
+    .col{
+      flex:1
+    }
+    .templates{
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .templates img{
+      flex: 1;
+      max-width: 50px;
+      max-height: 50px;
+      margin: 10px;
+    }
+    .templates img:hover{
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="row">
+      <div class="col" style="max-width: 20%;">
+
+        <h4>Writing Templates</h4>
+        <div class="templates">
+          <img src="images/Post_Template_1.png" />
+          <img src="images/Post_Template_2.png" />
+          <img src="images/Post_Template_3.png" />
+          <img src="images/Post_Template_4.png" />
+          <img src="images/Post_Template_5.png" />
+          <img src="images/Post_Template_6.png" />
+          <img src="images/Post_Template_7.png" />
+          <img src="images/Post_Template_8.png" />
+          <img src="images/Post_Template_9.png" />
+          <img src="images/Post_Template_10.png" />
+        </div>
+        <div class="text-options">
+           <input type="color" id="text-color">
+           <select id="text-font-size">
+             <option value="1">1</option>
+             <option value="2">2</option>
+             <option value="3">3</option>
+             <option value="4">4</option>
+             <option value="5">5</option>
+             <option value="6">6</option>
+             <option value="7">7</option>
+             <option value="8">8</option>
+             <option value="9">9</option>
+             <option value="10">10</option>
+             <option value="11">11</option>
+             <option value="12">12</option>
+             <option value="13">13</option>
+             <option value="14">14</option>
+             <option value="15">15</option>
+             <option value="16">16</option>
+             <option value="17">17</option>
+             <option value="18">18</option>
+             <option value="19">19</option>
+             <option value="20">20</option>
+             <option value="21">21</option>
+             <option value="22">22</option>
+             <option value="23">23</option>
+             <option value="24">24</option>
+             <option value="25">25</option>
+             <option value="26">26</option>
+             <option value="27">27</option>
+             <option value="28">28</option>
+             <option value="29">29</option>
+             <option value="30">30</option>
+             <option value="31">31</option>
+             <option value="32">32</option>
+             <option value="33">33</option>
+             <option value="34">34</option>
+             <option value="35">35</option>
+             <option value="36">36</option>
+             <option value="37">37</option>
+             <option value="38">38</option>
+             <option value="39">39</option>
+             <option value="40">40</option>
+           </select>
+          <textarea id="canvas-text" cols="50" rows="10">
+When it is finally ours, this freedom, this liberty, this beautiful
+and terrible thing, needful to man as air,
+usable as earth; when it belongs at last to all,
+when it is truly instinct, brain matter, diastole, systole,
+reflex action; when it is finally...
+          </textarea>
+        </div>
+        <div class="export-options">
+          <button id="export-png">export</button>
+        </div>
+      </div>
+      <div class="col" style="max-width: 80%;">
+        <canvas id="c"></canvas>
+      </div>
+  </div>
+
+<script src="js/fabric.min.js"></script>
+<script >
+  var container = 1280 * .50
+  var canvas = new fabric.Canvas('c', {
+    height: container,
+    width: container
+  });
+  var imgElement = new Image()
+  imgElement.src = 'images/Post_Template_1.png';
+  imgElement.onload = function(){
+    var imgInstance = new fabric.Image(imgElement);
+    canvas.setBackgroundImage(imgInstance, canvas.renderAll.bind(canvas), {
+      scaleX : canvas.getWidth()/imgElement.width,   //new update
+      scaleY: canvas.getHeight()/imgElement.height,   //new update
+    });
+    imgInstance.scaleToWidth(container);
+    var timgs = document.querySelectorAll('.templates > img')
+    var canvasText = document.querySelector('#canvas-text')
+    var textColor = document.querySelector('#text-color')
+    var textFontSize = document.querySelector('#text-font-size')
+    var exportpng = document.querySelector('#export-png')
+    timgs.forEach(function (img) {
+      img.addEventListener('click',function(){
+        var imgInstance1 = new fabric.Image(img);
+        canvas.setBackgroundImage(imgInstance1, canvas.renderAll.bind(canvas), {
+          scaleX : canvas.getWidth()/imgElement.width,   //new update
+           scaleY: canvas.getHeight()/imgElement.height,   //new update
+        });
+        imgInstance1.scaleToWidth(container);
+      })
+    })
+
+    var text = new fabric.Text(canvasText.value, { left: 50, top: 50,fontWeight: 'normal', fontSize:20 });
+    canvas.add(text);
+    canvasText.addEventListener('keyup', function() {
+      var obj = canvas.getActiveObject();
+
+      if (!obj) return;
+
+      obj.set('text',canvasText.value);
+      canvas.renderAll();
+    })
+
+    textColor.addEventListener('change', function() {
+      var obj = canvas.getActiveObject();
+
+      if (!obj) return;
+
+      obj.set('fill', textColor.value);
+      canvas.renderAll();
+    })
+
+    textFontSize.addEventListener('change', function() {
+      var obj = canvas.getActiveObject();
+
+      if (!obj) return;
+
+      obj.set('fontSize', textFontSize.value);
+      canvas.renderAll();
+    })
+
+    exportpng.addEventListener('click', function() {
+      var data = canvas.toDataURL({
+        format: 'png',
+        multiplier: 2
+      });
+
+      var newTab = window.open();
+      newTab.document.body.innerHTML ='<img src="'+data+'" />';
+    })
+
+
+
+  }
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
