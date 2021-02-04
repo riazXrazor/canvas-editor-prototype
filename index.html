@@ -33,6 +33,12 @@
     .templates img:hover{
       cursor: pointer;
     }
+    .text-options{
+      padding: 10px;
+    }
+    .text-options > div{
+      margin-top:10px;
+    }
   </style>
 </head>
 <body>
@@ -53,9 +59,13 @@
           <img src="images/Post_Template_9.png" />
           <img src="images/Post_Template_10.png" />
         </div>
+        <h4>Text Options</h4>
         <div class="text-options">
-           <input type="color" id="text-color">
-           <select id="text-font-size">
+           <div>
+            color: <input type="color" id="text-color">
+           </div> 
+           <div>
+            Font Size : <select id="text-font-size">
              <option value="1">1</option>
              <option value="2">2</option>
              <option value="3">3</option>
@@ -97,14 +107,9 @@
              <option value="39">39</option>
              <option value="40">40</option>
            </select>
-          <textarea id="canvas-text" cols="50" rows="10">
-When it is finally ours, this freedom, this liberty, this beautiful
-and terrible thing, needful to man as air,
-usable as earth; when it belongs at last to all,
-when it is truly instinct, brain matter, diastole, systole,
-reflex action; when it is finally...
-          </textarea>
+          </div> 
         </div>
+        <br/>
         <div class="export-options">
           <button id="export-png">export</button>
         </div>
@@ -116,7 +121,14 @@ reflex action; when it is finally...
 
 <script src="js/fabric.min.js"></script>
 <script >
-  var container = 1280 * .50
+  var container = 1280 * .50;
+  var dummytext = `
+When it is finally ours, this freedom, this liberty, this beautiful
+and terrible thing, needful to man as air,
+usable as earth; when it belongs at last to all,
+when it is truly instinct, brain matter, diastole, systole,
+reflex action; when it is finally...
+`
   var canvas = new fabric.Canvas('c', {
     height: container,
     width: container
@@ -146,16 +158,16 @@ reflex action; when it is finally...
       })
     })
 
-    var text = new fabric.Text(canvasText.value, { left: 50, top: 50,fontWeight: 'normal', fontSize:20 });
+    var text = new fabric.IText(dummytext, { left: 50, top: 50,fontWeight: 'normal', fontSize:20 });
     canvas.add(text);
-    canvasText.addEventListener('keyup', function() {
-      var obj = canvas.getActiveObject();
+    // canvasText.addEventListener('keyup', function() {
+    //   var obj = canvas.getActiveObject();
 
-      if (!obj) return;
+    //   if (!obj) return;
 
-      obj.set('text',canvasText.value);
-      canvas.renderAll();
-    })
+    //   obj.set('text',canvasText.value);
+    //   canvas.renderAll();
+    // })
 
     textColor.addEventListener('change', function() {
       var obj = canvas.getActiveObject();
