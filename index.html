@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Architects+Daughter&family=Potta+One&family=Roboto+Slab:wght@100&family=Roboto:wght@100&family=Sriracha&family=Teko:wght@300&display=swap" rel="stylesheet">
+
   <style>
     h1,h2,h3,h4,h5,h6{
       margin: 0;
@@ -42,7 +46,16 @@
   </style>
 </head>
 <body>
+<!-- 
 
+font-family: 'Anton', sans-serif;
+font-family: 'Architects Daughter', cursive;
+font-family: 'Potta One', cursive;
+font-family: 'Roboto', sans-serif;
+font-family: 'Roboto Slab', serif;
+font-family: 'Sriracha', cursive;
+font-family: 'Teko', sans-serif;
+ -->
   <div class="row">
       <div class="col" style="max-width: 20%;">
 
@@ -108,6 +121,17 @@
              <option value="40">40</option>
            </select>
           </div> 
+          <div>
+            Font Family: <select id="text-font-family">
+              <option value="Anton" style="font-family:'Anton', sans-serif;">Anton</option>
+              <option value="Architects Daughter" style="font-family: 'Architects Daughter', cursive;">Architects Daughter</option>
+              <option value="Potta One" style="font-family: 'Potta One', cursive;">Potta One</option>
+              <option value="Roboto" style="font-family: 'Roboto', sans-serif;">Roboto</option>
+              <option value="Roboto Slab" style="font-family: 'Roboto Slab', serif;">Roboto Slab</option>
+              <option value="Sriracha" style="font-family: 'Sriracha', cursive;">Sriracha</option>
+              <option value="Teko" style="font-family: 'Teko', sans-serif;">Teko</option>
+            </select>
+          </div>
         </div>
         <br/>
         <div class="export-options">
@@ -143,9 +167,9 @@ reflex action; when it is finally...
     });
     imgInstance.scaleToWidth(container);
     var timgs = document.querySelectorAll('.templates > img')
-    var canvasText = document.querySelector('#canvas-text')
     var textColor = document.querySelector('#text-color')
     var textFontSize = document.querySelector('#text-font-size')
+    var textFontFamily = document.querySelector('#text-font-family')
     var exportpng = document.querySelector('#export-png')
     timgs.forEach(function (img) {
       img.addEventListener('click',function(){
@@ -184,6 +208,15 @@ reflex action; when it is finally...
       if (!obj) return;
 
       obj.set('fontSize', textFontSize.value);
+      canvas.renderAll();
+    })
+    
+    textFontFamily.addEventListener('change', function() {
+      var obj = canvas.getActiveObject();
+
+      if (!obj) return;
+
+      obj.set('fontFamily', textFontFamily.value);
       canvas.renderAll();
     })
 
